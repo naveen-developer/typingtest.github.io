@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Typing the test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        
+        .outerdiv {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a3061d1;
+        }
+        
+        .innerdiv {
+            width: 850px;
+            height: auto;
+            background-color: #f3e4e4;
+            padding: 30px;
+            /*      box-shadow: [horizontal offset] [vertical offset] [blur radius] [optional spread radius] [color];   */
+            box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="outerdiv">
+        <div class="innerdiv">
+
+            <h4 class="my-3 text-center"> Typing Test </h4>
+            <p id="msg"></p>
+            <div class="form-group">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" placeholder="Enter Text here ..."></textarea>
+            </div>
+            <button class="btn btn-dark btn-block" id="btn">Click here to start</button>
+
+            <p class="my-3 text-center"> Developed By NaniNaveen </p>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        const setofwords = ['Is duniya mein sabse bada yodha maa hoti hai.','Trigger pe ungli rakhne wala har koi shooter nahi hota ladki pe haath daalne wala har koi mard nahi hota aur apun ki aukaat, apun ko chahne walo ke alava aur koi samajh nahi sakta.','Dar hona chahiye aur woh dil mein hona chahiye aur woh dil apunka nahi samne wale ka hona chahiye.','Agar tujh mein himmat ho ki hazar log tumhare peeche khade hai toh tum sirf ek jung jeetoge magar hazar logon ne himmat jutta li ki tum samne khade ho toh tum poori duniya jeet jaaoge.','Joh shehar mein rehne aata hai woh uske baare mein seekhta hai joh raj karne aata hai woh shehar ko apne baare mein sikhata hai.','If you think youre bad I am your dad.','Gang lekar aane wale hote hai gangster woh akela aata tha monster.','(Mumbai kya tere baap ka hai kya re) - Nahi re tere baap ki hai aur tera baap main hoon.','Duniya mein sab kehte hai ki paise ke bina chain se jee nahi sakte ... lekin yeh koi nahi kehta ki bina paise ke chain se mar bhi nahi sakte.','Ghayal sher ki saansein ... uski dahaad se bhi zyada bhayanak hoti hai.','Kisi ko maara toh police dhundega ... poice wale ko hi maara toh tumhare jaisa don dhundega','Powerful people come from powerful places.','Ladai mein koi pehle maarta hai isse koi farak nahi padta ... farak isse padta hai ki pehle kaun neecha gira.']
+
+        let msg = document.getElementById('msg');
+        let tarea = document.getElementById('exampleFormControlTextarea1');
+        let btn = document.getElementById('btn');
+        let startTime,endTime;
+        let btncount = 0;
+
+    
+            const playgame = () =>{
+            let randdomnumber = Math.floor(Math.random() * setofwords.length);
+            //console.log(randdomnumber);
+            msg.innerHTML = setofwords[randdomnumber];
+            let date = new Date();
+            startTime = date.getTime();
+            btn.innerText = "Done";
+
+        }
+
+        const endplay = () => {
+            let date = new Date();
+            endTime = date.getTime();
+            let totaltime = ((endTime - startTime)/1000);
+            //console.log(totaltime);
+
+            let totalstring = tarea.value;
+            let wordCount = wordcounter(totalstring);
+
+            let speed = Math.round((wordCount/totaltime) * 60);
+
+            let finalmsg = " You typed total at "+speed+" words per minutes. ";
+
+            finalmsg += comparewords(msg.innerText,totalstring);
+            msg.innerText = finalmsg;
+
+        }
+
+        const comparewords = (str1,str2) =>{
+            let words1 = str1.split(" ");
+            let words2 = str2.split(" ");
+            let count = 0;
+
+            words1.forEach(function (item, index)
+            {
+                if(item == words2[index]){
+                    count++;
+                }
+            })
+
+            let errorwords = (words1.length - count);
+            return (count + " correct out of "+words1.length+" words and the total number of error are "+errorwords+".");
+        }
+
+        const wordcounter = (string) =>{
+            let response = string.split(" ").length;
+            //console.log(response);
+            return response;
+        }
+
+        btn.addEventListener('click',function(){
+            
+            if(this.innerText == "Click here to start"){                
+                tarea.disabled = false;
+                playgame();
+                btncount++;
+                console.log("start button clicked times "+btncount);
+                if(btncount > 2)
+                {
+                    window.location.reload();
+                }
+            }
+            else if(this.innerText == "Done"){
+
+                tarea.disabled = true;
+                btn.innerText = "Click here to start";
+                endplay();
+                btncount++;
+                console.log("end start button clicked times "+btncount);   
+                
+            }
+
+        });
+
+
+        
+    </script>
+
+</body>
+
+</html>
