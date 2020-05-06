@@ -47,6 +47,7 @@
         <div class="innerdiv">
 
             <h4 class="my-3 text-center"> Typing Test </h4>
+            <p id="result" style="color: green;    font-size: 20px;"></p>
             <p id="msg"></p>
             <div class="form-group">
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" placeholder="Enter Text here ..."></textarea>
@@ -62,6 +63,7 @@
 
         const setofwords = ['Is duniya mein sabse bada yodha maa hoti hai.','Trigger pe ungli rakhne wala har koi shooter nahi hota ladki pe haath daalne wala har koi mard nahi hota aur apun ki aukaat, apun ko chahne walo ke alava aur koi samajh nahi sakta.','Dar hona chahiye aur woh dil mein hona chahiye aur woh dil apunka nahi samne wale ka hona chahiye.','Agar tujh mein himmat ho ki hazar log tumhare peeche khade hai toh tum sirf ek jung jeetoge magar hazar logon ne himmat jutta li ki tum samne khade ho toh tum poori duniya jeet jaaoge.','Joh shehar mein rehne aata hai woh uske baare mein seekhta hai joh raj karne aata hai woh shehar ko apne baare mein sikhata hai.','If you think youre bad I am your dad.','Gang lekar aane wale hote hai gangster woh akela aata tha monster.','(Mumbai kya tere baap ka hai kya re) - Nahi re tere baap ki hai aur tera baap main hoon.','Duniya mein sab kehte hai ki paise ke bina chain se jee nahi sakte ... lekin yeh koi nahi kehta ki bina paise ke chain se mar bhi nahi sakte.','Ghayal sher ki saansein ... uski dahaad se bhi zyada bhayanak hoti hai.','Kisi ko maara toh police dhundega ... poice wale ko hi maara toh tumhare jaisa don dhundega','Powerful people come from powerful places.','Ladai mein koi pehle maarta hai isse koi farak nahi padta ... farak isse padta hai ki pehle kaun neecha gira.']
 
+        let result = document.getElementById('result');
         let msg = document.getElementById('msg');
         let tarea = document.getElementById('exampleFormControlTextarea1');
         let btn = document.getElementById('btn');
@@ -86,14 +88,23 @@
             //console.log(totaltime);
 
             let totalstring = tarea.value;
+
+            if(totalstring.length == 0)
+            {
+                alert(' Please Enter text to check your typing speed ');
+                window.location.reload();
+            }
+            else{
             let wordCount = wordcounter(totalstring);
 
             let speed = Math.round((wordCount/totaltime) * 60);
 
-            let finalmsg = " You typed total at "+speed+" words per minutes. ";
+            let finalmsg = " You typed total at "+speed+" characters per minutes. ";
 
             finalmsg += comparewords(msg.innerText,totalstring);
-            msg.innerText = finalmsg;
+            result.innerText = finalmsg;
+            }
+
 
         }
 
@@ -108,6 +119,7 @@
                     count++;
                 }
             })
+
 
             let errorwords = (words1.length - count);
             return (count + " correct out of "+words1.length+" words and the total number of error are "+errorwords+".");
